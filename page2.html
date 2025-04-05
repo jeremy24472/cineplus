@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CinePlus</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #121212;
+            color: white;
+        }
+        header {
+            background-color: #1E1E1E;
+            padding: 20px;
+            text-align: center;
+        }
+        .logo {
+            width: 150px;
+        }
+        h1 {
+            margin: 10px 0;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .imagenes {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+        a {
+            text-decoration: none;
+            color: white;
+        }
+        img {
+            width: 200px;
+            height: auto;
+            border-radius: 10px;
+            transition: transform 0.3s;
+        }
+        img:hover {
+            transform: scale(1.05);
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .pagination button {
+            background-color: #ff9800;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .pagination button:disabled {
+            background-color: #555;
+            cursor: not-allowed;
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #1E1E1E;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <main>
+    <header>
+        <img src="imagenes/IMG-20250402-WA0000.jpg" alt="CinePlus Logo" class="logo">
+        <h1>Bienvenido a CinePlus</h1>
+    </header>
+    <div class="container">
+        <div class="imagenes" id="movieContainer">
+            <!-- Aquí se cargarán las películas dinámicamente -->
+        </div>
+        <div class="pagination">
+            <button id="prevPage">Anterior</button>
+            <button id="nextPage" disabled>Siguiente</button>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2025 CinePlus. Todos los derechos reservados.</p>
+    </footer>
+    <script>
+        // Array de películas
+        const movies = [
+            { title: "Transformers 2", img: "imagenes/trans2.webp", link: "trans2.html" },
+            { title: "Transformers 3", img: "imagenes/trans3.webp", link: "trans3.html" },
+            { title: "Transformers 4", img: "imagenes/trans4.webp", link: "trans4.html" },
+            { title: "Transformers 5", img: "imagenes/trans5.webp", link: "trans5.html" },
+        ];
+        
+        // Configuración de paginación
+        const moviesPerPage = 4;
+        let currentPage = 1;
+        
+        // Elementos del DOM
+        const prevButton = document.getElementById("prevPage");
+        const nextButton = document.getElementById("nextPage");
+        
+        // Función para renderizar las películas
+        function renderMovies() {
+            const movieContainer = document.getElementById("movieContainer");
+            movieContainer.innerHTML = "";
+            
+            const start = (currentPage - 1) * moviesPerPage;
+            const end = start + moviesPerPage;
+            const paginatedMovies = movies.slice(start, end);
+            
+            paginatedMovies.forEach(movie => {
+                const anchor = document.createElement("a");
+                anchor.href = movie.link;
+                
+                const img = document.createElement("img");
+                img.src = movie.img;
+                img.alt = movie.title;
+                
+                anchor.appendChild(img);
+                movieContainer.appendChild(anchor);
+            });
+            
+            // Actualizar estado de botones
+            prevButton.disabled = currentPage === 1;
+            nextButton.disabled = end >= movies.length;
+        }
+        
+        // Event listeners para los botones de paginación
+        prevButton.addEventListener("click", () => {
+            if (currentPage > 1) {
+                currentPage--;
+                renderMovies();
+            }
+        });
+        
+        nextButton.addEventListener("click", () => {
+            if (currentPage * moviesPerPage < movies.length) {
+                currentPage++;
+                renderMovies();
+            }
+        });
+        
+        // Inicializar la página
+        renderMovies();
+    </script>
+    </main>
+</body>
+</html>
