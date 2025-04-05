@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CinePlus - Página 2</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <main>
+        <header>
+            <img src="imagenes/logo_cineplus.jpg" alt="CinePlus Logo" class="logo">
+            <h1>CinePlus - Página 2</h1>
+        </header>
+        
+        <!-- Categorías -->
+        <div class="categories">
+            <div class="category-button active" data-category="all">Todas</div>
+            <div class="category-button" data-category="transformers">Transformers</div>
+            <div class="category-button" data-category="jurassic">Jurassic World</div>
+        </div>
+        
+        <div class="container">
+            <div class="imagenes" id="movieContainer">
+                <!-- Aquí se cargarán las películas dinámicamente -->
+            </div>
+            <div class="pagination">
+                <button id="prevPage">Anterior</button>
+                <button id="nextPage">Siguiente</button>
+            </div>
+        </div>
+        
+        <footer>
+            <p>&copy; 2025 CinePlus. Todos los derechos reservados.</p>
+        </footer>
+    </main>
+    
+    <!-- Scripts -->
+    <script src="js/pagination.js"></script>
+    <script src="js/main.js"></script>
+    
+    <script>
+        // Configurar página actual
+        document.addEventListener('DOMContentLoaded', function() {
+            currentPage = 2;
+        });
+    </script>
+</body>
+</html>

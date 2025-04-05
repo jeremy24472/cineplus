@@ -1,0 +1,135 @@
+/* Estilos específicos para las páginas de detalle de películas */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #121212;
+    color: white;
+    text-align: center;
+}
+
+header {
+    background-color: #1E1E1E;
+    padding: 20px;
+}
+
+.logo {
+    width: 150px;
+}
+
+.container {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.movie-poster {
+    width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(255, 152, 0, 0.3);
+}
+
+.movie-info {
+    margin-top: 20px;
+}
+
+.movie-title {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.movie-description {
+    margin-bottom: 20px;
+    line-height: 1.6;
+    text-align: left;
+}
+
+.download-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 24px;
+    background-color: #ff9800;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.download-button:hover {
+    background-color: #e68a00;
+    transform: scale(1.05);
+}
+
+.back-button {
+    display: inline-block;
+    margin-top: 20px;
+    margin-right: 10px;
+    padding: 10px 20px;
+    background-color: #555;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.back-button:hover {
+    background-color: #777;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+/* Información adicional de la película */
+.additional-info {
+    margin-top: 30px;
+    text-align: left;
+    padding: 20px;
+    background-color: #1E1E1E;
+    border-radius: 10px;
+}
+
+.additional-info h3 {
+    color: #ff9800;
+    margin-bottom: 15px;
+}
+
+/* Películas relacionadas */
+.related-movies {
+    margin-top: 40px;
+}
+
+.related-movies h3 {
+    color: #ff9800;
+    margin-bottom: 20px;
+}
+
+.related-movies-grid {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.related-movie-item {
+    width: 150px;
+}
+
+.related-movie-item img {
+    width: 100%;
+    border-radius: 5px;
+    transition: transform 0.3s;
+}
+
+.related-movie-item img:hover {
+    transform: scale(1.1);
+}
+
+.related-movie-title {
+    font-size: 14px;
+    margin-top: 5px;
+}
