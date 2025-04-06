@@ -33,17 +33,17 @@ const allMovies = [
         category: "transformers"
     },
     
-    // Jurassic World
+    // Jurassic World - Corregido uso de barras invertidas a barras normales
     { 
         title: "Jurassic World 2", 
         img: "imagenes/jurassic_world_2.webp", 
-        link: "peliculas\jurassic-world\jurassic-world-2.html",
+        link: "peliculas/jurassic-world/jurassic-world-2.html",
         category: "jurassic"
     },
     { 
         title: "Jurassic World Dominio", 
         img: "imagenes/jurassic_world_dominio.webp", 
-        link: "peliculas\jurassic-world\jurassic-world-dominio.html",
+        link: "peliculas/jurassic-world/jurassic-world-dominio.html",
         category: "jurassic"
     }
 ];
@@ -60,6 +60,21 @@ function getMoviesByCategory(category) {
     return allMovies.filter(movie => movie.category === category);
 }
 
+// Función para resolver rutas relativas correctamente
+function resolveRelativePath(path) {
+    // Detectar si estamos en una página de detalle de película (mayor profundidad)
+    const isDetailPage = window.location.pathname.includes('/peliculas/');
+    
+    // Si estamos en una página de detalle (profundidad 2), necesitamos volver dos niveles hacia arriba
+    if (isDetailPage) {
+        // Reemplazar la ruta relativa con la ruta absoluta desde la raíz del sitio
+        return '../../' + path;
+    }
+    
+    // Si estamos en la página principal o paginación, la ruta es directa
+    return path;
+}
+
 // Inicializar sitio
 document.addEventListener('DOMContentLoaded', function() {
     // Inicializar paginación si estamos en la página principal
@@ -72,6 +87,17 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Mostrar películas relacionadas en páginas de detalle
     setupRelatedMovies();
+    
+    // Verificar si hay un parámetro de página en la URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const pageParam = urlParams.get('page');
+    if (pageParam && !isNaN(parseInt(pageParam))) {
+        currentPage = parseInt(pageParam);
+        // Renderizar películas con la página actualizada
+        if (document.getElementById('movieContainer')) {
+            renderMovies(allMovies, document.getElementById('movieContainer'));
+        }
+    }
 });
 
 // Configurar navegación
@@ -84,7 +110,7 @@ function setupNavigation() {
         nav.className = 'main-nav';
         
         nav.innerHTML = `
-            <a href="index.html">Inicio</a>
+            <a href="${resolveRelativePath('index.html')}">Inicio</a>
             <a href="#" id="transformersLink">Transformers</a>
             <a href="#" id="jurassicLink">Jurassic World</a>
         `;
@@ -121,7 +147,7 @@ function filterByCategory(category) {
         renderMovies(allMovies, document.getElementById('movieContainer'));
     } else {
         // Si no estamos en la página principal, redirigir
-        window.location.href = 'index.html?category=' + category;
+        window.location.href = resolveRelativePath('index.html') + '?category=' + category;
     }
 }
 
@@ -131,10 +157,14 @@ function setupRelatedMovies() {
     
     // Si estamos en una página de detalle de película
     if (movieTitle && document.querySelector('.movie-poster')) {
-        // Determinar la categoría de la película actual basada en la URL
+        // Determinar la categoría de la película actual basada en la URL de manera más robusta
         let category = 'transformers';
-        if (window.location.pathname.includes('jurassic')) {
+        const pathname = window.location.pathname;
+        
+        if (pathname.includes('jurassic-world')) {
             category = 'jurassic';
+        } else if (pathname.includes('transformers')) {
+            category = 'transformers';
         }
         
         // Obtener películas relacionadas
@@ -148,9 +178,22 @@ function setupRelatedMovies() {
             let relatedHTML = '<h3>Películas relacionadas</h3><div class="related-movies-grid">';
             
             relatedMovies.forEach(movie => {
+                // Crear rutas correctas para enlaces y imágenes
+                // Los enlaces ya contienen las rutas correctas desde la raíz del sitio
+                // Solo necesitamos ajustar la ruta desde la ubicación actual
+                
+                // Extraer el nombre de archivo de la URL actual
+                const currentFilename = pathname.substring(pathname.lastIndexOf('/') + 1);
+                
+                // Construir la ruta relativa al archivo actual
+                const relativePath = movie.link.replace('peliculas/', '../');
+                
+                // Ruta relativa para la imagen
+                const imageRelativePath = '../../' + movie.img;
+                
                 relatedHTML += `
-                    <a href="${movie.link}" class="related-movie-item">
-                        <img src="../../${movie.img}" alt="${movie.title}">
+                    <a href="${relativePath}" class="related-movie-item">
+                        <img src="${imageRelativePath}" alt="${movie.title}">
                         <div class="related-movie-title">${movie.title}</div>
                     </a>
                 `;
